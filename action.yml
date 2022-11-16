@@ -1,0 +1,23 @@
+name: 'Update Clickup Task Status'
+description: 'Github Action to update the status of a Clickup task'
+inputs:
+  status:
+    description: 'The status to set the ClickUp task'
+    required: true
+    default: 'review'
+  github_token:
+    description: 'Github Auth Token'
+    required: true
+  clickup_token:
+    description: 'ClickUp Auth Token'
+    required: true
+  clickup_custom_id:
+    description: 'If you use custom task ids in ClickUp set to true'
+    required: false
+    default: false
+  clickup_team_id:
+    description: 'If you use custom task ids in ClickUp, should indicate the team id'
+    required: false
+runs:
+  using: 'node16'
+  main: 'dist/index.js'

@@ -1,0 +1,19 @@
+on:
+  pull_request:
+    types:
+      - opened
+jobs:
+  pr_opened_job:
+    runs-on: ubuntu-latest
+    name: Update ClickUp Task Status
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Update ClickUp Task Status step
+        uses: ./
+        with:
+          status: review
+          github_token: ${{secrets.GITHUB_TOKEN}}
+          clickup_token: ${{secrets.CLICKUP_TOKEN}}
+          clickup_custom_id: true
+          clickup_team_id: 20487880
