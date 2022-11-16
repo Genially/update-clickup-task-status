@@ -1,0 +1,36 @@
+on:
+  pull_request:
+    types:
+      - opened
+      - closed
+jobs:
+  if_opened:
+    if: github.event.action == 'opened'
+    runs-on: ubuntu-latest
+    name: Update ClickUp Task Status after PR opened
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Update ClickUp Task Status step
+        uses: ./
+        with:
+          status: review
+          github_token: ${{secrets.GITHUB_TOKEN}}
+          clickup_token: ${{secrets.CLICKUP_TOKEN}}
+          clickup_custom_id: true
+          clickup_team_id: ${{secrets.CLICKUP_TEAM_ID}}
+  if_merged:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    name: Update ClickUp Task Status after PR merged
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Update ClickUp Task Status step
+        uses: ./
+        with:
+          status: closed
+          github_token: ${{secrets.GITHUB_TOKEN}}
+          clickup_token: ${{secrets.CLICKUP_TOKEN}}
+          clickup_custom_id: true
+          clickup_team_id: ${{secrets.CLICKUP_TEAM_ID}}
