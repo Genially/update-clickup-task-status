@@ -1,4 +1,4 @@
-name: 'Update Clickup Task Status'
+name: 'Update ClickUp Task Status'
 description: 'Github Action to update the status of a Clickup task'
 inputs:
   status:
