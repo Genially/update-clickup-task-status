@@ -1,13 +1,9 @@
-import { setFailed } from '@actions/core';
+import { setFailed, getInput } from '@actions/core';
 import { context } from '@actions/github';
 import { updateStatus } from './clickup';
 
 async function run() {
   try {
-    // Get the JSON webhook payload for the event that triggered the workflow
-    const payload = JSON.stringify(context.payload, undefined, 2);
-    console.log(`The event payload: ${payload}`);
-
     if (!context.payload.pull_request) {
       throw new Error(
         'The event that triggered the workflow is not related with a pull request'
@@ -18,12 +14,19 @@ async function run() {
     const regex = /https:\/\/app\.clickup\.com\/t\/\S+/m;
     const urlFound = prBody.match(regex);
     if (!urlFound) {
-      throw new Error('ClickUp task url not found in PR body');
+      console.log('ClickUp task url not found in PR body');
+      return true;
     }
 
     const taskId = urlFound[0].split('/').pop();
     const result = await updateStatus(taskId);
-    console.log(`ClickUp response: ${JSON.stringify(result)}`);
+    if (result.status && result.status.status === getInput('status')) {
+      console.log(`ClickUp task updated to status ${result.status.status}`);
+    } else {
+      throw new Error(
+        `Can't update ClickUp task status to ${getInput('status')}`
+      );
+    }
   } catch (error) {
     setFailed(error.message);
   }

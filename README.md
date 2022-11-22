@@ -26,13 +26,13 @@ If you use custom task ids in ClickUp, you should indicate the team id.
 
 ## Usage
 
-This action will fail if you do not have the necessary permissions provided by the tokens or if the pull request doesn't contain in the body de ClickUp task url.
+This action will fail if you do not have the necessary permissions provided by the tokens or if the action can't update ClickUp task status.
 
 An example of its usage when pull request is opened:
 
 ```yaml
 name: Update ClickUp Task Status
-uses: genially/update-clickup-task-status@v1.0
+uses: Genially/update-clickup-task-status@v1.0.0
 on:
   pull_request:
     types:
@@ -60,7 +60,7 @@ jobs:
       - name: Update ClickUp Task Status
         run: |
           echo The PR was merged
-      - uses: genially/update-clickup-task-status@v1
+      - uses: Genially/update-clickup-task-status@v1.0.0
         with:
           status: done
           github_token: ${{secrets.GITHUB_TOKEN}}

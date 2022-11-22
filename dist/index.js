@@ -9737,12 +9737,12 @@ var lib = __nccwpck_require__(4649);
 var lib_default = /*#__PURE__*/__nccwpck_require__.n(lib);
 ;// CONCATENATED MODULE: ./clickup.js
 
-const clickup_core = __nccwpck_require__(1597);
+
 
 const updateStatus = async (taskId) => {
   const query = new URLSearchParams({
-    custom_task_ids: clickup_core.getInput('clickup_custom_id'),
-    team_id: clickup_core.getInput('clickup_team_id')
+    custom_task_ids: (0,core.getInput)('clickup_custom_id'),
+    team_id: (0,core.getInput)('clickup_team_id')
   }).toString();
 
   const resp = await lib_default()(
@@ -9751,10 +9751,10 @@ const updateStatus = async (taskId) => {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: clickup_core.getInput('clickup_token')
+        Authorization: (0,core.getInput)('clickup_token')
       },
       body: JSON.stringify({
-        status: clickup_core.getInput('status')
+        status: (0,core.getInput)('status')
       })
     }
   );
@@ -9770,10 +9770,6 @@ const updateStatus = async (taskId) => {
 
 async function run() {
   try {
-    // Get the JSON webhook payload for the event that triggered the workflow
-    const payload = JSON.stringify(github.context.payload, undefined, 2);
-    console.log(`The event payload: ${payload}`);
-
     if (!github.context.payload.pull_request) {
       throw new Error(
         'The event that triggered the workflow is not related with a pull request'
@@ -9784,12 +9780,19 @@ async function run() {
     const regex = /https:\/\/app\.clickup\.com\/t\/\S+/m;
     const urlFound = prBody.match(regex);
     if (!urlFound) {
-      throw new Error('ClickUp task url not found in PR body');
+      console.log('ClickUp task url not found in PR body');
+      return true;
     }
 
     const taskId = urlFound[0].split('/').pop();
     const result = await updateStatus(taskId);
-    console.log(`ClickUp response: ${JSON.stringify(result)}`);
+    if (result.status && result.status.status === (0,core.getInput)('status')) {
+      console.log(`ClickUp task updated to status ${result.status.status}`);
+    } else {
+      throw new Error(
+        `Can't update ClickUp task status to ${(0,core.getInput)('status')}`
+      );
+    }
   } catch (error) {
     (0,core.setFailed)(error.message);
   }
