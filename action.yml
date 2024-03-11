@@ -19,5 +19,5 @@ inputs:
     description: 'If you use custom task ids in ClickUp, should indicate the team id'
     required: false
 runs:
-  using: 'node16'
+  using: 'node20'
   main: 'dist/index.js'

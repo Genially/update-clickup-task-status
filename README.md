@@ -32,7 +32,7 @@ An example of its usage when pull request is opened:
 
 ```yaml
 name: Update ClickUp Task Status
-uses: Genially/update-clickup-task-status@v1.0.0
+uses: Genially/update-clickup-task-status@v1.1.0
 on:
   pull_request:
     types:
@@ -60,7 +60,7 @@ jobs:
       - name: Update ClickUp Task Status
         run: |
           echo The PR was merged
-      - uses: Genially/update-clickup-task-status@v1.0.0
+      - uses: Genially/update-clickup-task-status@v1.1.0
         with:
           status: done
           github_token: ${{secrets.GITHUB_TOKEN}}
