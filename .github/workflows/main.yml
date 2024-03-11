@@ -10,7 +10,7 @@ jobs:
     name: Update ClickUp Task Status after PR opened
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Update ClickUp Task Status step
         uses: ./
         with:
@@ -25,7 +25,7 @@ jobs:
     name: Update ClickUp Task Status after PR merged
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Update ClickUp Task Status step
         uses: ./
         with:
