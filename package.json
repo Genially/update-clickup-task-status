@@ -1,6 +1,6 @@
 {
   "name": "update-clickup-task-status",
-  "version": "1.0.0",
+  "version": "1.2.0",
   "description": "Action to update ClickUp task status from pull request",
   "main": "index.js",
   "scripts": {
@@ -27,6 +27,7 @@
   "homepage": "https://github.com/Genially/update-clickup-task-status#readme",
   "dependencies": {
     "@actions/core": "^1.10.0",
-    "@actions/github": "^5.1.1"
+    "@actions/github": "^6.0.0",
+    "node-fetch": "^3.3.2"
   }
 }
