@@ -6,26 +6,26 @@ async function run() {
   try {
     if (!context.payload.pull_request) {
       throw new Error(
-        'The event that triggered the workflow is not related with a pull request'
+        'The event that triggered the workflow is not related to a pull request'
       );
     }
 
     const prBody = context.payload.pull_request.body;
     const regex = /https:\/\/app\.clickup\.com\/t\/\S+/m;
-    const urlFound = prBody.match(regex);
+    const urlFound = prBody?.match(regex);
     if (!urlFound) {
-      console.log('ClickUp task url not found in PR body');
+      console.log('ClickUp task URL not found in PR body');
       return true;
     }
 
     const taskId = urlFound[0].split('/').pop();
     const result = await updateStatus(taskId);
-    if (result.status && result.status.status === getInput('status')) {
+
+    const expectedStatus = getInput('status');
+    if (result?.status?.status === expectedStatus) {
       console.log(`ClickUp task updated to status ${result.status.status}`);
     } else {
-      throw new Error(
-        `Can't update ClickUp task status to ${getInput('status')}`
-      );
+      throw new Error(`Can't update ClickUp task status to ${expectedStatus}`);
     }
   } catch (error) {
     setFailed(error.message);
